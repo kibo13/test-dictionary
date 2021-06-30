@@ -1845,15 +1845,98 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  mounted: function mounted() {
-    console.log('Component mounted.');
+  data: function data() {
+    return {
+      form: {
+        text: '',
+        lang: '',
+        type: ''
+      },
+      result: []
+    };
+  },
+  methods: {
+    isLetter: function isLetter(e) {
+      var _char = String.fromCharCode(e.keyCode);
+
+      if (/^[а-яё ]+$/.test(_char)) return true;else e.preventDefault();
+    },
+    loadWords: function loadWords(e) {
+      var _this = this;
+
+      this.form.type = e.target.dataset.type;
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('api/words', this.form).then(function (response) {
+        _this.result = response.data;
+        console.log(response);
+      })["catch"](function (error) {
+        return console.log(error);
+      });
+    },
+    clear: function clear() {
+      document.getElementById("input").value = "";
+      document.getElementById("result").innerText = "";
+    }
   }
 });
 
@@ -37391,7 +37474,165 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _vm._v("\n    Welcome to page\n")
+    _c("form", [
+      _c("h4", { staticClass: "my-4 text-center" }, [
+        _vm._v("Приложение для перевода текста по словам")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group mb-2" }, [
+        _c(
+          "label",
+          { staticClass: "mb-0 font-weight-bold", attrs: { for: "lang" } },
+          [_vm._v("Выбрать язык")]
+        ),
+        _vm._v(" "),
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.form.lang,
+                expression: "form.lang"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { id: "lang" },
+            on: {
+              change: function($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function(o) {
+                    return o.selected
+                  })
+                  .map(function(o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.$set(
+                  _vm.form,
+                  "lang",
+                  $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                )
+              }
+            }
+          },
+          [
+            _c("option", { attrs: { disabled: "", value: "" } }, [
+              _vm._v("ru")
+            ]),
+            _vm._v(" "),
+            _c("option", [_vm._v("en")]),
+            _vm._v(" "),
+            _c("option", [_vm._v("kz")])
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group mb-2" }, [
+        _c(
+          "label",
+          { staticClass: "mb-0 font-weight-bold", attrs: { for: "input" } },
+          [_vm._v("Исходный текст")]
+        ),
+        _vm._v(" "),
+        _c("textarea", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.form.text,
+              expression: "form.text"
+            }
+          ],
+          staticClass: "form-control",
+          staticStyle: { height: "100px" },
+          attrs: { id: "input", placeholder: "введите текст" },
+          domProps: { value: _vm.form.text },
+          on: {
+            keypress: function($event) {
+              return _vm.isLetter($event)
+            },
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.form, "text", $event.target.value)
+            }
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "btn-group btn-group-sm my-2" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-secondary",
+            attrs: { "data-type": "1" },
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                return _vm.loadWords.apply(null, arguments)
+              }
+            }
+          },
+          [_vm._v("\n        Перевести\n      ")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-secondary",
+            attrs: { "data-type": "2" },
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                return _vm.loadWords.apply(null, arguments)
+              }
+            }
+          },
+          [_vm._v("\n        Показать непереведенные слова\n      ")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-secondary",
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                return _vm.clear.apply(null, arguments)
+              }
+            }
+          },
+          [_vm._v("\n        Очистить\n      ")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _c(
+          "label",
+          { staticClass: "mb-0 font-weight-bold", attrs: { for: "result" } },
+          [_vm._v("Результат")]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "form-control",
+            staticStyle: { height: "100px" },
+            attrs: { id: "result" }
+          },
+          [
+            _vm._v(
+              "\n        " +
+                _vm._s(_vm.result.length == 0 ? "" : _vm.result) +
+                "\n      "
+            )
+          ]
+        )
+      ])
+    ])
   ])
 }
 var staticRenderFns = []
@@ -49619,6 +49860,18 @@ Vue.compile = compileToFunctions;
 /******/ 				}
 /******/ 			}
 /******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
 /******/ 		};
 /******/ 	})();
 /******/ 	
